@@ -13,14 +13,26 @@ int main(int argc, char *argv[])
 	SDL_Window *window = SDL_CreateWindow("Game Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, flags);
 	// Simple rendering for testing
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+	bool quit = false;
 
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+	// Main loop
+	while (!quit)
+	{
+		// Take Input Here
 
-	SDL_RenderClear(renderer);
+		// Update
 
-	SDL_RenderPresent(renderer);
+		// Draw
 
-	SDL_Delay(3000);
+		// Simply just a test portion to temporarily keep window open and changing
+		SDL_SetRenderDrawColor(renderer, rand() % 255, rand() % 255, rand() % 255, 255);
+
+		SDL_RenderClear(renderer);
+
+		SDL_RenderPresent(renderer);
+
+		SDL_Delay(1000);
+	}
 
 	return 0;
 }
