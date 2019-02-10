@@ -1,6 +1,16 @@
 #include <iostream>
 #include <SDL.h>
 
+// Only a test function
+void changeRenderer(SDL_Renderer *renderer)
+{
+	SDL_SetRenderDrawColor(renderer, rand() % 255, rand() % 255, rand() % 255, 255);
+
+	SDL_RenderClear(renderer);
+
+	SDL_RenderPresent(renderer);
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -15,23 +25,32 @@ int main(int argc, char *argv[])
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 	bool quit = false;
 
-	// Main loop
+	// Main Loop
 	while (!quit)
 	{
+		SDL_Event e;
+		while (SDL_PollEvent(&e) > 0)
+		{
+			switch (e.type)
+			{
+				case SDL_QUIT:
+					quit = true;
+					break;
+				default:
+					changeRenderer(renderer);
+					break;
+			}
+			SDL_UpdateWindowSurface(window);
+		}
+
 		// Take Input Here
 
 		// Update
 
 		// Draw
 
-		// Simply just a test portion to temporarily keep window open and changing
-		SDL_SetRenderDrawColor(renderer, rand() % 255, rand() % 255, rand() % 255, 255);
-
-		SDL_RenderClear(renderer);
-
-		SDL_RenderPresent(renderer);
-
-		SDL_Delay(1000);
+		// Renderer Test function
+		changeRenderer(renderer);
 	}
 
 	return 0;
