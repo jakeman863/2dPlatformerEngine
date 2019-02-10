@@ -23,9 +23,24 @@ int main(int argc, char *argv[])
 	SDL_Window *window = SDL_CreateWindow("Game Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, flags);
 	// Simple rendering for testing
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
-	bool quit = false;
+	
+	// Renderer Test function (Sets random background color)
+	changeRenderer(renderer);
 
-	// Main Loop
+	SDL_Rect player;
+	player.x = 50;
+	player.y = 50;
+	player.w = 50;
+	player.h = 50;
+	
+	SDL_RenderDrawRect(renderer, &player);
+
+	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+
+	SDL_RenderPresent(renderer);
+
+	// Main Window Loop
+	bool quit = false;
 	while (!quit)
 	{
 		SDL_Event e;
@@ -36,11 +51,7 @@ int main(int argc, char *argv[])
 				case SDL_QUIT:
 					quit = true;
 					break;
-				default:
-					changeRenderer(renderer);
-					break;
 			}
-			SDL_UpdateWindowSurface(window);
 		}
 
 		// Take Input Here
@@ -50,7 +61,7 @@ int main(int argc, char *argv[])
 		// Draw
 
 		// Renderer Test function
-		changeRenderer(renderer);
+		//changeRenderer(renderer);
 	}
 
 	return 0;
