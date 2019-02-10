@@ -19,6 +19,14 @@
 #include "Box2D/Collision/Shapes/b2PolygonShape.h"
 #include <new>
 
+b2PolygonShape::b2PolygonShape()
+{
+	m_type = e_polygon;
+	m_radius = b2_polygonRadius;
+	m_count = 0;
+	m_centroid.SetZero();
+}
+
 b2Shape* b2PolygonShape::Clone(b2BlockAllocator* allocator) const
 {
 	void* mem = allocator->Allocate(sizeof(b2PolygonShape));
@@ -437,6 +445,12 @@ void b2PolygonShape::ComputeMass(b2MassData* massData, float32 density) const
 	
 	// Shift to center of mass then to original body origin.
 	massData->I += massData->mass * (b2Dot(massData->center, massData->center) - b2Dot(center, center));
+}
+
+ const b2Vec2& b2PolygonShape::GetVertex(int32 index) const
+{
+	b2Assert(0 <= index && index < m_count);
+	return m_vertices[index];
 }
 
 bool b2PolygonShape::Validate() const
