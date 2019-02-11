@@ -1,6 +1,5 @@
 #include <iostream>
 #include <SDL.h>
-<<<<<<< HEAD
 
 const int WIDTH = 640;
 const int HEIGHT = 480;
@@ -132,8 +131,6 @@ void display()
 		tmp = tmp->GetNext();
 	}
 }
-=======
->>>>>>> parent of 222762a... Box2D
 
 // Only a test function
 void changeRenderer(SDL_Renderer *renderer)
@@ -148,11 +145,7 @@ void changeRenderer(SDL_Renderer *renderer)
 int main(int argc, char *argv[])
 {
 <<<<<<< HEAD
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> parent of 222762a... Box2D
 =======
 
 >>>>>>> parent of 222762a... Box2D
