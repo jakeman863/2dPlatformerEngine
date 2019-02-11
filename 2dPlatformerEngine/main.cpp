@@ -1,5 +1,9 @@
 #include <iostream>
 #include <SDL.h>
+<<<<<<< HEAD
+=======
+#include "Box2D/Box2D.h"
+>>>>>>> parent of bb30094... Box2D/Physics changes
 
 // Only a test function
 void changeRenderer(SDL_Renderer *renderer)
@@ -13,7 +17,10 @@ void changeRenderer(SDL_Renderer *renderer)
 
 int main(int argc, char *argv[])
 {
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of bb30094... Box2D/Physics changes
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	// Flags to change window properties (Adding more flags requires | between each flag)
