@@ -1,6 +1,5 @@
 #include <iostream>
 #include <SDL.h>
-#include "Box2D/Box2D.h"
 
 // Only a test function
 void changeRenderer(SDL_Renderer *renderer)
@@ -14,6 +13,7 @@ void changeRenderer(SDL_Renderer *renderer)
 
 int main(int argc, char *argv[])
 {
+
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	// Flags to change window properties (Adding more flags requires | between each flag)
