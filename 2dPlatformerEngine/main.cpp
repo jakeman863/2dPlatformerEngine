@@ -28,7 +28,7 @@ void swapValue(int& a, int& b)
 
 void drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1)
 {
-	//int tmp;
+	int tmp;
 	bool step;
 
 	step = abs(y1 - y0) > abs(x1 - x0);
@@ -44,7 +44,7 @@ void drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1)
 		swapValue(y1, y0);
 	}
 	float error = 0.0;
-	int y = y0;
+	float y = y0;
 	float roundError = (float)abs(y1 - y0) / (x1 - x0);
 	int ystep = (y1 > y0 ? 1 : -1);
 	for (int i = x0;i < x1;i++)
