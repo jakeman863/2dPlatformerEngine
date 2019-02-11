@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL.h>
+#include "Box2D/Box2D.h"
 
 const int WIDTH = 640;
 const int HEIGHT = 480;
@@ -144,11 +145,7 @@ void changeRenderer(SDL_Renderer *renderer)
 
 int main(int argc, char *argv[])
 {
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> parent of 222762a... Box2D
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	// Flags to change window properties (Adding more flags requires | between each flag)
