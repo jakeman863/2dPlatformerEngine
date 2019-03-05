@@ -1,13 +1,10 @@
 #include <iostream>
 #include <SDL.h>
 #include "Box2D/Box2D.h"
+#include "Player.h"
+#include "GameObject.h"
 
 /*
-For physics file separated
-#include "physics.h"
-*/
-
-
 //For physics stuff in the main.cpp only
 const int WIDTH = 640;
 const int HEIGHT = 480;
@@ -19,7 +16,7 @@ SDL_Window* window;
 b2Body* player;
 
 
-
+/*
 //Function prototypes for physics integrated
 void putPixel(SDL_Surface* dest, int x, int y, int r, int g, int b);
 void swapValue(int& a, int& b);
@@ -29,6 +26,7 @@ b2Body* addRectangle(int x, int y, int w, int h, bool dyn);
 void drawSquare(b2Vec2* points, b2Vec2 center, float angle);
 void init();
 void display();
+*/
 
 
 // Only a test function
@@ -96,17 +94,11 @@ int main(int argc, char *argv[])
 	}
 	*/
 
-	/*
-	//Stuff for physics file outside of the main.cpp
-	physics ex;
-	ex.go();
-	*/
-
-	
 	//Display of the creatable squares
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_Init(SDL_INIT_VIDEO);
-	window = SDL_CreateWindow("My Game Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_OPENGL);
+	Player testPlayer;
+	testPlayer.GameObject.window = SDL_CreateWindow("My Game Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
 	Uint32 start;
 	SDL_Event event;
 	screen = SDL_GetWindowSurface(window);
