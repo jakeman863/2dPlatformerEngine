@@ -16,7 +16,7 @@ const float PixelsToMeters = 1 / MetersToPixels;
 b2World* world;
 SDL_Surface* screen;
 SDL_Window* window;
-b2Body* myRect;
+b2Body* player;
 
 
 
@@ -106,14 +106,16 @@ int main(int argc, char *argv[])
 	//Display of the creatable squares
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_Init(SDL_INIT_VIDEO);
-	window = SDL_CreateWindow("My Game Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("My Game Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_OPENGL);
 	Uint32 start;
 	SDL_Event event;
 	screen = SDL_GetWindowSurface(window);
 	bool running = true;
 	init();
+	
 	while(running)
 	{
+		b2Vec2 vel = player->GetLinearVelocity();
 			start=SDL_GetTicks();
 			while(SDL_PollEvent(&event))
 			{
@@ -128,6 +130,25 @@ int main(int argc, char *argv[])
 											case SDLK_ESCAPE:
 													running=false;
 													break;
+											case SDLK_d:
+												vel.x = 10;
+												
+												player->SetLinearVelocity(vel);
+												break;
+											case SDLK_a:
+												vel.x = -10;
+												
+												player->SetLinearVelocity(vel);
+												break;
+											case SDLK_SPACE:
+												//player->SetLinearVelocity(b2Vec2(vel.x, 0));
+												
+												//player->ApplyForce(b2Vec2(0, -1500), player->GetWorldCenter(), true);
+												if (vel.y == 0)
+												{
+													player->ApplyLinearImpulse(b2Vec2(0, -100), player->GetWorldCenter(), true);
+												}		
+												break;
 									}
 									break;
 							case SDL_MOUSEBUTTONDOWN:
@@ -259,9 +280,16 @@ void drawSquare(b2Vec2* points, b2Vec2 center, float angle)
 //Creation of the objects in the scene
 void init()
 {
+	// World with normal gravity
 	world = new b2World(b2Vec2(0.0f,9.81f));
+	
+	//PLACEHOLDER floor
 	addRectangle(WIDTH / 2, HEIGHT - 50, WIDTH, 30, false);
-	myRect = addRectangle(100, 200, 50, 50, true);
+	
+	//Player creation
+	player = addRectangle(75, 50, 50, 50, true);
+	player->SetFixedRotation(true);
+	player->SetGravityScale(3.0f);
 }
 
 //Display of scene
