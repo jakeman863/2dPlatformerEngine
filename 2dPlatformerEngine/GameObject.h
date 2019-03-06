@@ -11,12 +11,15 @@ class GameObject
 	private:
 		const float MetersToPixels = 20;
 		const float PixelsToMeters = 1 / MetersToPixels;
-		windowInstance* windowRef;
+		
 
 	public:
 		b2Body* myRect;
+		windowInstance* windowRef;
 
-		GameObject(windowInstance& thisWindow);
+		GameObject(windowInstance* thisWindow);
+
+		GameObject();
 
 		void drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1);
 		void rotateTranslate(b2Vec2& vector, const b2Vec2& center, float angle);

@@ -4,13 +4,13 @@
 #include <iostream>
 #include <SDL.h>
 #include "Box2D/Box2D.h"
+#include "GameObject.h"
 
-class Player
+class Player: public GameObject
 {
 	private:
-		
+
 	public:
-		Player();
-		
+		Player(windowInstance* thisWindow);
 };
 #endif

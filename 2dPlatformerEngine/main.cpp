@@ -8,14 +8,15 @@ int main(int argc, char *argv[])
 	// Create World/Window
 	windowInstance* newWindow = new windowInstance();
 	// Instantiate an object
-	GameObject* newObject = new GameObject(*newWindow);
+	GameObject* newObject = new GameObject(newWindow);
+	Player* player = new Player(newWindow);
 
 	Uint32 start;
 	SDL_Event event;
 	bool running = true;
 	while (running)
 	{
-		b2Vec2 vel;
+		b2Vec2 vel = player->myRect->GetLinearVelocity();;
 			//newObject.myRect->GetLinearVelocity();
 		start = SDL_GetTicks();
 		while (SDL_PollEvent(&event))
@@ -32,33 +33,28 @@ int main(int argc, char *argv[])
 					running = false;
 					break;
 				case SDLK_d:
-					vel.x = 10;
-
-					//testPlayer.myRect->SetLinearVelocity(vel);
+					vel.x = 8;
+					player->myRect->SetLinearVelocity(vel);
 					break;
 				case SDLK_a:
-					vel.x = -10;
-
-					//testPlayer.myRect->SetLinearVelocity(vel);
+					vel.x = -8;
+					player->myRect->SetLinearVelocity(vel);
 					break;
 				case SDLK_SPACE:
-					//player->SetLinearVelocity(b2Vec2(vel.x, 0));
-
-					//player->ApplyForce(b2Vec2(0, -1500), player->GetWorldCenter(), true);
 					if (vel.y == 0)
 					{
-						//testPlayer.myRect->ApplyLinearImpulse(b2Vec2(0, -100), testPlayer.myRect->GetWorldCenter(), true);
+						player->myRect->ApplyLinearImpulse(b2Vec2(0, -100), player->myRect->GetWorldCenter(), true);
 					}
 					break;
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				//testPlayer.addRectangle(event.button.x, event.button.y, 20, 20, true);
+				newObject->addRectangle(event.button.x, event.button.y, 20, 20, true);
 				break;
 
 			}
 		}
-		//testPlayer.displayIt();
+		newObject->displayIt();
 		newWindow->world->Step(1.0 / 30.0, 8, 3);      //update
 		SDL_UpdateWindowSurface(newWindow->window);
 		if (1000.0 / 30.0 > SDL_GetTicks() - start)

@@ -1,11 +1,16 @@
 #include "GameObject.h"
 
-GameObject::GameObject(windowInstance& thisWindow)
+GameObject::GameObject(windowInstance* thisWindow)
 {
-	windowRef = &thisWindow;
+	windowRef = thisWindow;
 	addRectangle(640 / 2, 480 - 50, 640, 30, false);
-	myRect = addRectangle(100, 200, 50, 50, true);
+	//myRect = addRectangle(100, 200, 50, 50, true);
 }
+
+GameObject::GameObject()
+{
+}
+
 
 void GameObject::drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1)
 {
