@@ -1,3 +1,4 @@
+
 #include "Player.h"
 #include "GameObject.h"
 #include "windowInstance.h"
@@ -61,6 +62,8 @@ int main(int argc, char *argv[])
 		{
 			SDL_Delay(1000.0 / 30.0 - (SDL_GetTicks() - start));
 		}
+		player->clone->increaseFrameTime();
+		player->clone->checkFrameTime();
 	}
 
 	SDL_Quit();
@@ -69,3 +72,60 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+/*
+
+
+	bool running = true;
+	init();
+	while(running)
+	{
+			start=SDL_GetTicks();
+			while(SDL_PollEvent(&event))
+			{
+					switch(event.type)
+					{
+							case SDL_QUIT:
+									running=false;
+									break;
+							case SDL_KEYDOWN:
+									switch(event.key.keysym.sym)
+									{
+											case SDLK_ESCAPE:
+													running=false;
+													break;
+									}
+									break;
+							case SDL_MOUSEBUTTONDOWN:
+									addRectangle(event.button.x,event.button.y,20,20,true);
+									break;
+
+					}
+			}
+			display();
+			world->Step(1.0/30.0,8,3);      //update
+			SDL_UpdateWindowSurface(window);
+			if (1000.0 / 30 > SDL_GetTicks() - start)
+			{
+				SDL_Delay(1000.0 / 30 - (SDL_GetTicks() - start));
+			}
+
+			frameTime++; //The following is more that I added
+			if (FPS / frameTime == 4)
+			{
+				frameTime = 0;
+				playerRect.x += frameWidth;
+				if (playerRect.x >= textureWidth)
+				{
+					playerRect.x = 0;
+				}
+			}
+			SDL_RenderClear(renderTarget);
+			SDL_RenderCopy(renderTarget, currentImage, &playerRect, &playerPosition);
+			SDL_RenderPresent(renderTarget);
+	}
+
+	SDL_Quit();
+	
+	return 0;
+}
+*/
