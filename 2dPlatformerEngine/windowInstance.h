@@ -4,7 +4,6 @@
 #include <iostream>
 #include <SDL.h>
 #include "Box2D/Box2D.h"
-#include "windowInstance.h"
 
 class windowInstance
 {
@@ -13,8 +12,10 @@ public:
 	const int HEIGHT = 480;
 	
 	b2World* world;
+	SDL_Renderer* renderer;
 	SDL_Surface* screen;
 	SDL_Window* window;
+	SDL_Rect cameraRect;
 
 	windowInstance();
 	~windowInstance();

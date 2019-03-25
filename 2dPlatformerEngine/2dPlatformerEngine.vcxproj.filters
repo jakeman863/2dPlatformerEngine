@@ -27,6 +27,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImportWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="windowInstance.h">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportWorld.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -19,6 +19,8 @@ class GameObject
 
 		GameObject(windowInstance* thisWindow);
 
+		GameObject(windowInstance* thisWindow, int objectType, int r, int c);
+
 		GameObject();
 
 		void drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1);

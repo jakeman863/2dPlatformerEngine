@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "GameObject.h"
 #include "windowInstance.h"
+#include "ImportWorld.h"
 
 
 int main(int argc, char *argv[])
@@ -10,6 +11,8 @@ int main(int argc, char *argv[])
 	// Instantiate an object
 	GameObject* newObject = new GameObject(newWindow);
 	Player* player = new Player(newWindow);
+
+	ImportWorld* newWorld = new ImportWorld(newWindow);
 
 	Uint32 start;
 	SDL_Event event;
@@ -49,11 +52,12 @@ int main(int argc, char *argv[])
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				newObject->addRectangle(event.button.x, event.button.y, 20, 20, true);
+				//newObject->addRectangle(event.button.x, event.button.y, 20, 20, true);
 				break;
 
 			}
 		}
+
 		newObject->displayIt();
 		newWindow->world->Step(1.0 / 30.0, 8, 3);      //update
 		SDL_UpdateWindowSurface(newWindow->window);

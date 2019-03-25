@@ -3,8 +3,31 @@
 GameObject::GameObject(windowInstance* thisWindow)
 {
 	windowRef = thisWindow;
-	addRectangle(640 / 2, 480 - 50, 640, 30, false);
+	//addRectangle(640 / 2, 480 - 50, 640, 30, false);
 	//myRect = addRectangle(100, 200, 50, 50, true);
+}
+
+GameObject::GameObject(windowInstance* thisWindow, int objectType, int r, int c)
+{
+	windowRef = thisWindow;
+
+	// Just air
+	if (objectType == 0)
+	{
+
+	}
+
+	// Simple Ground Block
+	if (objectType == 1)
+	{
+		addRectangle((c*50) + 25, r*50, 50, 50, false);
+	}
+	
+	// Whatever else we decide to add
+	if (objectType == 2)
+	{
+
+	}
 }
 
 GameObject::GameObject()
