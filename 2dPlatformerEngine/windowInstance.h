@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <SDL.h>
+#include <SDL_image.h>
 #include "Box2D/Box2D.h"
 #include "windowInstance.h"
 
@@ -15,6 +16,7 @@ public:
 	b2World* world;
 	SDL_Surface* screen;
 	SDL_Window* window;
+	SDL_Renderer *renderTarget;
 
 	windowInstance();
 	~windowInstance();

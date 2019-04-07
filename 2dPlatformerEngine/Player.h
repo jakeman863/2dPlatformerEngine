@@ -5,14 +5,17 @@
 #include <SDL.h>
 #include "Box2D/Box2D.h"
 #include "GameObject.h"
-#include "animationComponent.h"
+#include "AnimationComponent.h"
 
-class Player: public GameObject
+using namespace std;
+
+class Player : public GameObject
 {
 	private:
 
 	public:
-		animationComponent* clone;
+		AnimationComponent *clone;
 		Player(windowInstance* thisWindow);
+		void upateAnimation(b2Vec2 currentPlayerPosition);
 };
 #endif

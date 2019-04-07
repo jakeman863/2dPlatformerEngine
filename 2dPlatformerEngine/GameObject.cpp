@@ -11,7 +11,6 @@ GameObject::GameObject()
 {
 }
 
-
 void GameObject::drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1)
 {
 	int tmp;
@@ -58,7 +57,6 @@ void GameObject::rotateTranslate(b2Vec2& vector, const b2Vec2& center, float ang
 	vector = tmp + center;
 }
 
-
 b2Body* GameObject::addRectangle(int x, int y, int w, int h, bool dyn = true)
 {
 	b2BodyDef bodydef;
@@ -86,7 +84,6 @@ b2Body* GameObject::addRectangle(int x, int y, int w, int h, bool dyn = true)
 	return body;
 }
 
-
 void GameObject::drawSquare(b2Vec2* points, b2Vec2 center, float angle)
 {
 	for (int i = 0; i < 4; i++)
@@ -95,10 +92,18 @@ void GameObject::drawSquare(b2Vec2* points, b2Vec2 center, float angle)
 	}
 }
 
+void GameObject::drawSquare2(b2Vec2* points, b2Vec2 center, float angle)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		SDL_SetRenderDrawColor(windowRef->renderTarget, 200, 200, 200, 255);
+		SDL_RenderDrawLine(windowRef->renderTarget, points[i].x*MetersToPixels, points[i].y*MetersToPixels, points[(i + 1) > 3 ? 0 : (i + 1)].x*MetersToPixels, points[(i + 1) > 3 ? 0 : (i + 1)].y*MetersToPixels);
+	}
+}
 
 void GameObject::displayIt()
 {
-	SDL_FillRect(windowRef->screen, NULL, 0);
+	SDL_FillRect(windowRef->screen, NULL, 100);
 	b2Body* tmp = windowRef->world->GetBodyList();
 	b2Vec2 points[4];
 	while (tmp)
@@ -109,6 +114,23 @@ void GameObject::displayIt()
 			rotateTranslate(points[i], tmp->GetWorldCenter(), tmp->GetAngle());
 		}
 		drawSquare(points, tmp->GetWorldCenter(), tmp->GetAngle());
+		tmp = tmp->GetNext();
+	}
+}
+
+void GameObject::displayIt2()
+{
+	SDL_RenderDrawRect(windowRef->renderTarget, NULL);
+	b2Body* tmp = windowRef->world->GetBodyList();
+	b2Vec2 points[4];
+	while (tmp)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			points[i] = ((b2PolygonShape*)tmp->GetFixtureList()->GetShape())->GetVertex(i);
+			rotateTranslate(points[i], tmp->GetWorldCenter(), tmp->GetAngle());
+		}
+		drawSquare2(points, tmp->GetWorldCenter(), tmp->GetAngle());
 		tmp = tmp->GetNext();
 	}
 }

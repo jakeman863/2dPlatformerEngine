@@ -1,17 +1,15 @@
-#include "animationComponent.h"
+#include "AnimationComponent.h"
 
-animationComponent::animationComponent(string imageFile, int numWide, int numHigh, int xPos, int yPos, int w, int h)
+AnimationComponent::AnimationComponent(string imageFile, int numWide, int numHigh, int xPos, int yPos, int w, int h)
 {
 	//0 32
 	frameTime = 0;
-	renderTarget = nullptr;
 	currentImage = nullptr;
+
 	playerPosition.x = xPos;
 	playerPosition.y = yPos;
 	playerPosition.w = w;
 	playerPosition.h = h;
-
-	renderTarget = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); //Potentially causing problems
 	
 	//clone 4 2
 	numberWide = numWide;
@@ -26,7 +24,7 @@ animationComponent::animationComponent(string imageFile, int numWide, int numHig
 	playerRect.h = frameHeight;
 }
 
-SDL_Texture* animationComponent::LoadTexture(string filePath, SDL_Renderer *renderTarget)
+SDL_Texture* AnimationComponent::LoadTexture(string filePath, SDL_Renderer *renderTarget)
 {
 	SDL_Texture *texture = nullptr;
 	SDL_Surface *surface = IMG_Load(filePath.c_str()); //The IMG_Load call is the thing causing the problem
@@ -47,12 +45,12 @@ SDL_Texture* animationComponent::LoadTexture(string filePath, SDL_Renderer *rend
 	return texture;
 }
 
-void animationComponent::increaseFrameTime()
+void AnimationComponent :: increaseFrameTime()
 {
 	frameTime++;
 }
 
-void animationComponent :: checkFrameTime()
+void AnimationComponent :: checkFrameTime(float32 posX, float32 posY)
 {
 	if (FPS / frameTime == numberWide)
 	{
@@ -63,6 +61,10 @@ void animationComponent :: checkFrameTime()
 			playerRect.x = 0;
 		}
 	}
+
+	playerPosition.x = posX;
+	playerPosition.y = posY;
+
 	SDL_RenderClear(renderTarget);
 	SDL_RenderCopy(renderTarget, currentImage, &playerRect, &playerPosition);
 	SDL_RenderPresent(renderTarget);

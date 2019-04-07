@@ -1,8 +1,6 @@
-
 #include "Player.h"
 #include "GameObject.h"
 #include "windowInstance.h"
-
 
 int main(int argc, char *argv[])
 {
@@ -15,10 +13,13 @@ int main(int argc, char *argv[])
 	Uint32 start;
 	SDL_Event event;
 	bool running = true;
+
 	while (running)
 	{
 		b2Vec2 vel = player->myRect->GetLinearVelocity();;
-			//newObject.myRect->GetLinearVelocity();
+		
+		//newObject.myRect->GetLinearVelocity();
+
 		start = SDL_GetTicks();
 		while (SDL_PollEvent(&event))
 		{
@@ -36,45 +37,47 @@ int main(int argc, char *argv[])
 				case SDLK_d:
 					vel.x = 8;
 					player->myRect->SetLinearVelocity(vel);
+					player->upateAnimation(player->myRect->GetPosition());
 					break;
 				case SDLK_a:
 					vel.x = -8;
 					player->myRect->SetLinearVelocity(vel);
+					player->upateAnimation(player->myRect->GetPosition());
 					break;
 				case SDLK_SPACE:
 					if (vel.y == 0)
 					{
 						player->myRect->ApplyLinearImpulse(b2Vec2(0, -100), player->myRect->GetWorldCenter(), true);
+						player->upateAnimation(player->myRect->GetPosition());
 					}
 					break;
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				newObject->addRectangle(event.button.x, event.button.y, 20, 20, true);
+				//newObject->addRectangle(event.button.x, event.button.y, 20, 20, true);
 				break;
 
 			}
 		}
-		newObject->displayIt();
+		
+		player->displayIt();
+		player->displayIt2();
+		//newObject->displayIt();
 		newWindow->world->Step(1.0 / 30.0, 8, 3);      //update
 		SDL_UpdateWindowSurface(newWindow->window);
 		if (1000.0 / 30.0 > SDL_GetTicks() - start)
 		{
 			SDL_Delay(1000.0 / 30.0 - (SDL_GetTicks() - start));
 		}
-		player->clone->increaseFrameTime();
-		player->clone->checkFrameTime();
+		player->upateAnimation(player->myRect->GetPosition());
 	}
 
 	SDL_Quit();
-
 
 	return 0;
 }
 
 /*
-
-
 	bool running = true;
 	init();
 	while(running)
