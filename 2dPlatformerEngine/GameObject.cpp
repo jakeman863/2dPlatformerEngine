@@ -3,7 +3,7 @@
 GameObject::GameObject(windowInstance* thisWindow)
 {
 	windowRef = thisWindow;
-	addRectangle(640 / 2, 480 - 50, 640, 30, false);
+	addRectangle(640 / 2, 8500, 64000, 30, false);
 	//myRect = addRectangle(100, 200, 50, 50, true);
 }
 
@@ -11,11 +11,12 @@ GameObject::GameObject()
 {
 }
 
+/*
 void GameObject::drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1)
 {
 	int tmp;
 	bool step;
-
+	
 	step = abs(y1 - y0) > abs(x1 - x0);
 	if (step)
 	{
@@ -48,6 +49,7 @@ void GameObject::drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1)
 		}
 	}
 }
+*/
 
 void GameObject::rotateTranslate(b2Vec2& vector, const b2Vec2& center, float angle)
 {
@@ -81,9 +83,19 @@ b2Body* GameObject::addRectangle(int x, int y, int w, int h, bool dyn = true)
 
 	body->CreateFixture(&fixturedef);
 
+	SDL_Rect renderRect;
+	renderRect.x = x;
+	renderRect.y = y;
+	renderRect.w = w;
+	renderRect.h = h;
+
+	SDL_SetRenderDrawColor(windowRef->renderTarget, 255, 0, 0, 255);
+	SDL_RenderFillRect(windowRef->renderTarget, &renderRect);
+
 	return body;
 }
 
+/*
 void GameObject::drawSquare(b2Vec2* points, b2Vec2 center, float angle)
 {
 	for (int i = 0; i < 4; i++)
@@ -91,16 +103,18 @@ void GameObject::drawSquare(b2Vec2* points, b2Vec2 center, float angle)
 		drawLine(windowRef->screen, points[i].x*MetersToPixels, points[i].y*MetersToPixels, points[(i + 1) > 3 ? 0 : (i + 1)].x*MetersToPixels, points[(i + 1) > 3 ? 0 : (i + 1)].y*MetersToPixels);
 	}
 }
+*/
 
 void GameObject::drawSquare2(b2Vec2* points, b2Vec2 center, float angle)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		SDL_SetRenderDrawColor(windowRef->renderTarget, 200, 200, 200, 255);
+		SDL_SetRenderDrawColor(windowRef->renderTarget, 255, 0, 0, 255);
 		SDL_RenderDrawLine(windowRef->renderTarget, points[i].x*MetersToPixels, points[i].y*MetersToPixels, points[(i + 1) > 3 ? 0 : (i + 1)].x*MetersToPixels, points[(i + 1) > 3 ? 0 : (i + 1)].y*MetersToPixels);
 	}
 }
 
+/*
 void GameObject::displayIt()
 {
 	SDL_FillRect(windowRef->screen, NULL, 100);
@@ -117,6 +131,7 @@ void GameObject::displayIt()
 		tmp = tmp->GetNext();
 	}
 }
+*/
 
 void GameObject::displayIt2()
 {
@@ -135,6 +150,7 @@ void GameObject::displayIt2()
 	}
 }
 
+/*
 void GameObject::putPixel(SDL_Surface* dest, int x, int y, int r, int g, int b)
 {
 	if (x >= 0 && x < dest->w && y >= 0 && y < dest->h)
@@ -142,6 +158,7 @@ void GameObject::putPixel(SDL_Surface* dest, int x, int y, int r, int g, int b)
 		((Uint32*)dest->pixels)[y*dest->pitch / 4 + x] = SDL_MapRGB(dest->format, r, g, b);
 	}
 }
+*/
 
 void GameObject::swapValue(int& a, int& b)
 {

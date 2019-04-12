@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 	// Create World/Window
 	windowInstance* newWindow = new windowInstance();
 	// Instantiate an object
-	GameObject* newObject = new GameObject(newWindow);
+	GameObject* ground = new GameObject(newWindow);
 	Player* player = new Player(newWindow);
 
 	Uint32 start;
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	while (running)
 	{
 		b2Vec2 vel = player->myRect->GetLinearVelocity();;
-		
+
 		//newObject.myRect->GetLinearVelocity();
 
 		start = SDL_GetTicks();
@@ -35,20 +35,17 @@ int main(int argc, char *argv[])
 					running = false;
 					break;
 				case SDLK_d:
-					vel.x = 8;
+					vel.x = 75;
 					player->myRect->SetLinearVelocity(vel);
-					player->upateAnimation(player->myRect->GetPosition());
 					break;
 				case SDLK_a:
-					vel.x = -8;
+					vel.x = -75;
 					player->myRect->SetLinearVelocity(vel);
-					player->upateAnimation(player->myRect->GetPosition());
 					break;
 				case SDLK_SPACE:
 					if (vel.y == 0)
 					{
-						player->myRect->ApplyLinearImpulse(b2Vec2(0, -100), player->myRect->GetWorldCenter(), true);
-						player->upateAnimation(player->myRect->GetPosition());
+						player->myRect->ApplyLinearImpulse(b2Vec2(0, -350), player->myRect->GetWorldCenter(), true);
 					}
 					break;
 				}
@@ -60,16 +57,19 @@ int main(int argc, char *argv[])
 			}
 		}
 		
-		player->displayIt();
+		//player->displayIt();
 		player->displayIt2();
 		//newObject->displayIt();
 		newWindow->world->Step(1.0 / 30.0, 8, 3);      //update
-		SDL_UpdateWindowSurface(newWindow->window);
+		//SDL_UpdateWindowSurface(newWindow->window);
 		if (1000.0 / 30.0 > SDL_GetTicks() - start)
 		{
 			SDL_Delay(1000.0 / 30.0 - (SDL_GetTicks() - start));
 		}
+		
 		player->upateAnimation(player->myRect->GetPosition());
+		//SDL_RenderClear(newWindow->renderTarget);
+		//SDL_RenderPresent(newWindow->renderTarget);
 	}
 
 	SDL_Quit();

@@ -20,14 +20,14 @@ class GameObject
 		GameObject(windowInstance* thisWindow);
 		GameObject();
 
-		void drawLine(SDL_Surface *dest, int x0, int y0, int x1, int y1); 
+		//void drawLine(SDL_Surface *dest, int x0, int y0, int x1, int y1); 
 		void rotateTranslate(b2Vec2& vector, const b2Vec2& center, float angle);
 		b2Body* addRectangle(int x, int y, int w, int h, bool dyn);
-		void drawSquare(b2Vec2* points, b2Vec2 center, float angle);
+		//void drawSquare(b2Vec2* points, b2Vec2 center, float angle);
 		void drawSquare2(b2Vec2* points, b2Vec2 center, float angle);
-		void displayIt();
+		//void displayIt();
 		void displayIt2();
-		void putPixel(SDL_Surface *dest, int x, int y, int r, int g, int b);
+		//void putPixel(SDL_Surface *dest, int x, int y, int r, int g, int b);
 		void swapValue(int& a, int& b);
 		
 };

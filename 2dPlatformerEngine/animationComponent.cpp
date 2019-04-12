@@ -50,7 +50,7 @@ void AnimationComponent :: increaseFrameTime()
 	frameTime++;
 }
 
-void AnimationComponent :: checkFrameTime(float32 posX, float32 posY)
+void AnimationComponent :: checkFrameTime(b2Vec2 currentPlayerPosition)
 {
 	if (FPS / frameTime == numberWide)
 	{
@@ -62,8 +62,10 @@ void AnimationComponent :: checkFrameTime(float32 posX, float32 posY)
 		}
 	}
 
-	playerPosition.x = posX;
-	playerPosition.y = posY;
+	playerPosition.x = currentPlayerPosition.x;
+	playerPosition.y = currentPlayerPosition.y;
+
+	//objectBody.SetLinearVelocity(currentPlayerPosition);
 
 	SDL_RenderClear(renderTarget);
 	SDL_RenderCopy(renderTarget, currentImage, &playerRect, &playerPosition);
