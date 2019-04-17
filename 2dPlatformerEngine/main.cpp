@@ -6,6 +6,8 @@
 
 int main(int argc, char *argv[])
 {
+	// Window handler for menu items
+
 	// Create World/Window
 	windowInstance* newWindow = new windowInstance();
 	// Instantiate an object
