@@ -132,6 +132,7 @@
     <ClCompile Include="ImportWorld.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="windowInstance.cpp" />
   </ItemGroup>
   <ItemGroup>

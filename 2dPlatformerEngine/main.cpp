@@ -1,7 +1,9 @@
+#include <Windows.h>
 #include "Player.h"
 #include "GameObject.h"
 #include "windowInstance.h"
 #include "ImportWorld.h"
+#include "Utilities.h"
 
 
 int main(int argc, char *argv[])
@@ -19,6 +21,10 @@ int main(int argc, char *argv[])
 	Uint32 start;
 	SDL_Event event;
 	bool running = true;
+
+	// Enable WinAPI event processing
+	SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
+
 	while (running)
 	{
 		b2Vec2 vel = player->myRect->GetLinearVelocity();;
@@ -28,35 +34,55 @@ int main(int argc, char *argv[])
 		{
 			switch (event.type)
 			{
-			case SDL_QUIT:
-				running = false;
-				break;
-			case SDL_KEYDOWN:
-				switch (event.key.keysym.sym)
-				{
-				case SDLK_ESCAPE:
+				case SDL_QUIT:
 					running = false;
 					break;
-				case SDLK_d:
-					vel.x = 8;
-					player->myRect->SetLinearVelocity(vel);
-					break;
-				case SDLK_a:
-					vel.x = -8;
-					player->myRect->SetLinearVelocity(vel);
-					break;
-				case SDLK_SPACE:
-					if (vel.y == 0)
+				case SDL_KEYDOWN:
+					switch (event.key.keysym.sym)
 					{
-						player->myRect->ApplyLinearImpulse(b2Vec2(0, -100), player->myRect->GetWorldCenter(), true);
+						case SDLK_ESCAPE:
+							running = false;
+							break;
+						case SDLK_d:
+							vel.x = 8;
+							player->myRect->SetLinearVelocity(vel);
+							break;
+						case SDLK_a:
+							vel.x = -8;
+							player->myRect->SetLinearVelocity(vel);
+							break;
+						case SDLK_SPACE:
+							if (vel.y == 0)
+							{
+								player->myRect->ApplyLinearImpulse(b2Vec2(0, -100), player->myRect->GetWorldCenter(), true);
+							}
+							break;
 					}
 					break;
-				}
-				break;
-			case SDL_MOUSEBUTTONDOWN:
-				//newObject->addRectangle(event.button.x, event.button.y, 20, 20, true);
-				break;
+				case SDL_MOUSEBUTTONDOWN:
+					//newObject->addRectangle(event.button.x, event.button.y, 20, 20, true);
+					break;
+				case SDL_SYSWMEVENT: // Check menubar event message
+					OutputDebugString("Received SDL_SYSWMEVENT");
+					if (event.syswm.msg->msg.win.msg == WM_COMMAND) {
+						if (LOWORD(event.syswm.msg->msg.win.wParam) == ID_EXIT) { // Exit
+							running = false;
+						}
+						else if (LOWORD(event.syswm.msg->msg.win.wParam) == ID_LEVELEDITOR) { // Open level editor
+							STARTUPINFO si;
+							PROCESS_INFORMATION pi;
+							ZeroMemory(&si, sizeof(si));
+							ZeroMemory(&pi, sizeof(pi));
+							// Start Level Editor tool -> "..\\Maps\\world-edit-tool-setup-1.0.0.exe"
+							int val = CreateProcess(TEXT(".\\Maps\\world-edit-tool\\Level Editor Tool.exe"), 
+											NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 
+						}
+						else if (LOWORD(event.syswm.msg->msg.win.wParam) == ID_ABOUT) { // Open level editor
+							//
+						}
+					}
+					break;
 			}
 		}
 
