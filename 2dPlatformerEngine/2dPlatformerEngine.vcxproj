@@ -128,12 +128,19 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="windowInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="MyContactListener.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="windowInstance.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="EnemyList.txt" />
+    <Text Include="Level1List.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
