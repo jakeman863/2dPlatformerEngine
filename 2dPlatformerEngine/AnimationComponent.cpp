@@ -18,8 +18,11 @@
 *
 * return: nothing is returned in this constructor
 ************************************************************************************************************/
-AnimationComponent::AnimationComponent(string imageFile, int numWide, int numHigh, int xPos, int yPos, int w, int h)
+AnimationComponent::AnimationComponent(string imageFile, int numWide, int numHigh, int xPos, int yPos, int w, int h, SDL_Renderer* renderT)
 {
+	//Reference the renderer
+	renderTarget = renderT;
+
 	//Give variables base value
 	frameTime = 0;
 	currentImage = nullptr;
@@ -90,7 +93,7 @@ void AnimationComponent :: increaseFrameTime()
 *
 * return: nothing is returned
 ************************************************************************************************************/
-void AnimationComponent :: checkFrameTime(b2Vec2 currentPlayerPosition)
+void AnimationComponent :: checkFrameTime(b2Vec2 currentPlayerPosition, int width, int height)
 {
 	//Check frame
 	if (FPS / frameTime == numberWide)
@@ -104,11 +107,9 @@ void AnimationComponent :: checkFrameTime(b2Vec2 currentPlayerPosition)
 	}
 
 	//Change position
-	playerPosition.x = currentPlayerPosition.x;
-	playerPosition.y = currentPlayerPosition.y;
+	playerPosition.x = (20 * currentPlayerPosition.x) - width / 2;
+	playerPosition.y = (20 * currentPlayerPosition.y) - height / 2;
 
 	//Refresh render
-	SDL_RenderClear(renderTarget);
 	SDL_RenderCopy(renderTarget, currentImage, &playerRect, &playerPosition);
-	SDL_RenderPresent(renderTarget);
 }

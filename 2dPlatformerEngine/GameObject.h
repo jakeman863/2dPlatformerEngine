@@ -27,6 +27,7 @@ class GameObject
 		const float PixelsToMeters = 1 / MetersToPixels;
 	//Public members
 	public:	
+		AnimationComponent* objectAnim;
 		b2Body* myRect;
 		b2Color m_color;
 		windowInstance* windowRef;
@@ -43,7 +44,7 @@ class GameObject
 
 		GameObject(windowInstance* thisWindow);
 		GameObject();
-		GameObject(windowInstance* thisWindow, int oID, int x, int y, int w, int h, bool dyn);
+		GameObject(windowInstance* thisWindow, int oID, int x, int y, int w, int h, bool dyn, int numWide, int numHigh, string fileName);
 		virtual void beginningOperation();
 		void drawLine(SDL_Surface *dest, int x0, int y0, int x1, int y1); 
 		void rotateTranslate(b2Vec2& vector, const b2Vec2& center, float angle);

@@ -25,8 +25,8 @@ class windowInstance
 {
 	//Public attributes
 	public:
-		const int WIDTH = 640;
-		const int HEIGHT = 480;
+		const int WIDTH = 1280;
+		const int HEIGHT = 960;
 		b2World* world;
 		SDL_Surface* screen;
 		SDL_Window* window;

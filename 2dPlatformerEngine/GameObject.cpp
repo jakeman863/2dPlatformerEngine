@@ -29,7 +29,7 @@ GameObject::GameObject()
 *
 * return: nothing is returned in this constructor
 ************************************************************************************************************/
-GameObject::GameObject(windowInstance* thisWindow, int oID, int x, int y, int w, int h, bool dyn)
+GameObject::GameObject(windowInstance* thisWindow, int oID, int x, int y, int w, int h, bool dyn, int numWide, int numHigh, string fileName)
 {
 	//Default operations
 	windowRef = thisWindow;
@@ -40,6 +40,9 @@ GameObject::GameObject(windowInstance* thisWindow, int oID, int x, int y, int w,
 	wVal = w;
 	hVal = h;
 	isDynamic = dyn;
+	nWideVal = numWide;
+	nHighVal = numHigh;
+	fName = fileName;
 	//myRect = addRectangle(100, 200, 50, 50, true);
 }
 
@@ -52,7 +55,8 @@ GameObject::GameObject(windowInstance* thisWindow, int oID, int x, int y, int w,
 ************************************************************************************************************/
 void GameObject::beginningOperation()
 {
-	addRectangle(xVal, yVal, wVal, hVal, isDynamic);
+		objectAnim = new AnimationComponent(fName, nWideVal, nHighVal, xVal, yVal, wVal, hVal, windowRef->renderTarget);
+		myRect = addRectangle(xVal, yVal, wVal, hVal, isDynamic);
 }
 
 /************************************************************************************************************
@@ -207,14 +211,15 @@ b2Body* GameObject::addRectangle(int x, int y, int w, int h, bool dyn = true)
 	body->CreateFixture(&fixturedef);
 
 	SDL_Rect renderRect;
-	renderRect.x = x;
-	renderRect.y = y;
+	renderRect.x = x - w / 2;
+	renderRect.y = y - h / 2;
 	renderRect.w = w;
 	renderRect.h = h;
 
 	//Set render stuff
-	SDL_SetRenderDrawColor(windowRef->renderTarget, 255, 0, 0, 255);
+	SDL_SetRenderDrawColor(windowRef->renderTarget, 255, 255, 255, 255);
 	SDL_RenderFillRect(windowRef->renderTarget, &renderRect);
+	SDL_RenderPresent(windowRef->renderTarget);
 
 	return body;
 }
@@ -343,4 +348,6 @@ void GameObject::swapValue(int& a, int& b)
 ************************************************************************************************************/
 void GameObject::updateAnimation(b2Vec2 currentPlayerPosition)
 {
+	objectAnim->increaseFrameTime();
+	objectAnim->checkFrameTime(currentPlayerPosition, wVal, hVal);
 }

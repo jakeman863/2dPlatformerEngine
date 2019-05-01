@@ -19,6 +19,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
 using namespace std;
 
 void EnemyIdle(Enemy*);
@@ -28,21 +29,22 @@ int main(int argc, char *argv[])
 	// Create World/Window
 	windowInstance* newWindow = new windowInstance();
 	
-	// Instantiate an object
-	GameObject * objectList[100];
+	// Instantiate an object list
+	GameObject * objectList[500];
 
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 500; i++)
 	{
 		objectList[i] = nullptr;
 	}
 	
+	// Player and map creation
+	objectList[0] = new Player(newWindow, 51, "clone.png", 4, 2, 320, 0, 45, 45);
+	ImportWorld* map = new ImportWorld(newWindow, objectList);
+
 	//Object creation
-	objectList[0] = new GameObject(newWindow, 1, 640 / 2, 8500, 64000, 30, false);
-	objectList[1] = new Player(newWindow, 51, "clone.png", 4, 2, 100, 200, 50, 50);
-	objectList[2] = new GameObject(newWindow, 2, 0, 0, 0, 0, false);
-	GameObject* newObject = new GameObject(newWindow);
-	Player* player = new Player(newWindow);
-	
+	//objectList[1] = new GameObject(newWindow, 1, 320, 400, 300, 50, false, 1, 1, "block.png");
+
+
 	string enemyCount = "0";
 	string xPos;
 	string yPos;
@@ -68,7 +70,6 @@ int main(int argc, char *argv[])
 	}
 	inFile.close();
 
-
 	//Start
 	Uint32 start;
 	SDL_Event event;
@@ -78,7 +79,7 @@ int main(int argc, char *argv[])
 	SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
 
 	//Start objects
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 500; i++)
 	{
 		if (objectList[i] != nullptr)
 		{
@@ -92,7 +93,11 @@ int main(int argc, char *argv[])
 		bool madeChange = false;
 		bool doCheck = false;
 
-		b2Vec2 vel = objectList[1]->myRect->GetLinearVelocity();;
+		b2Vec2 vel = objectList[0]->myRect->GetLinearVelocity();
+
+		b2Vec2 currentPlayerPosition;
+		b2Vec2 currentObjectPosition;
+
 
 		start = SDL_GetTicks();
 
@@ -110,17 +115,20 @@ int main(int argc, char *argv[])
 							running = false;
 							break;
 						case SDLK_d:
-							vel.x = 75;
-							objectList[1]->myRect->SetLinearVelocity(vel);
+							vel.x = 10;
+							objectList[0]->myRect->SetLinearVelocity(vel);
+							//currentPlayerPosition = objectList[1]->myRect->GetPosition();
 							break;
 						case SDLK_a:
-							vel.x = -75;
-							objectList[1]->myRect->SetLinearVelocity(vel);
+							vel.x = -10;
+							objectList[0]->myRect->SetLinearVelocity(vel);
+							//currentPlayerPosition = objectList[1]->myRect->GetPosition();
 							break;
 						case SDLK_SPACE:
 							if (vel.y == 0)
 							{
-								objectList[1]->myRect->ApplyLinearImpulse(b2Vec2(0, -350), objectList[1]->myRect->GetWorldCenter(), true);
+								objectList[0]->myRect->ApplyLinearImpulse(b2Vec2(0, -135), objectList[0]->myRect->GetWorldCenter(), true);
+								//currentPlayerPosition = objectList[1]->myRect->GetPosition();
 							}
 							break;
 					}
@@ -170,7 +178,7 @@ int main(int argc, char *argv[])
 					break;
 			}
 		}
-		
+
 		//Check for object changes (Currently isn't working, since Utilities is being destroyed after closure)
 		if (doCheck == true)
 		{
@@ -232,32 +240,49 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		objectList[1]->displayIt();
-		objectList[1]->displayIt2();
+		// Calculate object positions
+		currentPlayerPosition = objectList[0]->myRect->GetPosition();
+		
+		
+		//Clear render scene
+		SDL_RenderClear(newWindow->renderTarget);
+
 		for (int i = 0; i < n; i++)
 		{
 			EnemyIdle(en[i]);
-			b2Vec2 vel2 = en[0]->myRect->GetLinearVelocity();;
+			b2Vec2 vel2 = en[0]->myRect->GetLinearVelocity();
+			en[i]->updateAnimation(en[i]->myRect->GetPosition());
 		}
 
-		newObject->displayIt();
-		newWindow->world->Step(1.0 / 30.0, 8, 3);      //update
-		//SDL_UpdateWindowSurface(newWindow->window);
+
+		//objectList[1]->displayIt2();
+		//objectList[0]->displayIt2();
+
+		//Populate objects to scene
+		objectList[0]->updateAnimation(currentPlayerPosition);
+
+		for (int i = 1; i < 500; i++)
+		{
+			if (objectList[i] != nullptr)
+			{
+				objectList[i]->updateAnimation(objectList[i]->myRect->GetPosition());
+			}
+		}
+
+		//Display scene
+		SDL_RenderPresent(newWindow->renderTarget);
+
+		newWindow->world->Step(1.0 / 30.0, 8, 3);
 		if (1000.0 / 30.0 > SDL_GetTicks() - start)
 		{
 			SDL_Delay(1000.0 / 30.0 - (SDL_GetTicks() - start));
 		}
-		
-		//player->updateAnimation(player->myRect->GetPosition());
-		objectList[1]->updateAnimation(objectList[1]->myRect->GetPosition());
-		//SDL_RenderClear(newWindow->renderTarget);
-		//SDL_RenderPresent(newWindow->renderTarget);
 	}
 
 	SDL_Quit();
 	return 0;
 }
-}
+
 
 void EnemyIdle(Enemy* en)
 {
@@ -282,7 +307,7 @@ void EnemyIdle(Enemy* en)
 			b2Vec2 vel2 = en->myRect->GetLinearVelocity();
 			vel2.x = 0;
 			en->myRect->SetLinearVelocity(vel2);
-			en->counter = 0;
+			en->resetCounter();
 		}
 	}
 	if (en->name.compare("[ELF]") == 0)

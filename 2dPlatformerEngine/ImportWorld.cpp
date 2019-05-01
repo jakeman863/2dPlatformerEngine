@@ -4,7 +4,7 @@
 #include <string>
 
 
-ImportWorld::ImportWorld(windowInstance* thisWindow)
+ImportWorld::ImportWorld(windowInstance* thisWindow, GameObject* objectList[])
 {
 	windowRef = thisWindow;
 
@@ -65,17 +65,28 @@ ImportWorld::ImportWorld(windowInstance* thisWindow)
 	}
 	map.close();
 
-	CreateMap(mapArr, r, c);
+	CreateMap(mapArr, r, c, objectList);
 }
 
-void ImportWorld::CreateMap(int* mapArr, int r, int c)
+void ImportWorld::CreateMap(int* mapArr, int r, int c, GameObject* objectList[])
 {
+	int counter = 1;
 	for (int i = 0; i < r; i++)
 	{
 		for (int j = 0; j < c; j++)
 		{
 			std::cout << mapArr[i*c + j] << " ";
-			//GameObject* newMapObject = new GameObject(windowRef, mapArr[i*c + j], i, j);
+
+			int x = (j * 50) + 25;
+			int y = i * 50;
+			int id = mapArr[i * c + j];
+
+			if (id == 1)
+			{
+				GameObject* newMapObject = new GameObject(windowRef, id, x, y, 50, 50, false, 1, 1, "block.png");
+				objectList[counter] = newMapObject;
+				counter++;
+			}	
 		}
 
 		std::cout << "\n";

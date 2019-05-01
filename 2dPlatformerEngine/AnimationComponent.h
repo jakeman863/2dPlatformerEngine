@@ -22,7 +22,7 @@
 using namespace std;
 
 //Animation class creation
-class AnimationComponent : public windowInstance
+class AnimationComponent
 {
 	//Private members
 	private:
@@ -32,11 +32,12 @@ class AnimationComponent : public windowInstance
 		SDL_Rect playerRect;
 		SDL_Rect playerPosition;
 		int frameWidth, frameHeight, textureWidth, textureHeight, numberWide, numberHigh;
+		SDL_Renderer* renderTarget;
 	//Public members (mainly function prototypes)
 	public:
-		AnimationComponent(string imageFile, int numWide, int numHigh, int xPos, int yPos, int w, int h);	
+		AnimationComponent(string imageFile, int numWide, int numHigh, int xPos, int yPos, int w, int h, SDL_Renderer* renderT);	
 		SDL_Texture *LoadTexture(string filePath, SDL_Renderer *renderTarget);
 		void increaseFrameTime();
-		void checkFrameTime(b2Vec2 currentPlayerPosition);
+		void checkFrameTime(b2Vec2 currentPlayerPosition, int width, int height);
 	};
 #endif

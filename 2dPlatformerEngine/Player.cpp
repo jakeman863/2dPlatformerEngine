@@ -40,10 +40,10 @@ Player::Player(windowInstance* thisWindow, int oID, string fileName, int numWide
 ************************************************************************************************************/
 void Player::beginningOperation()
 {
-	animComp = new AnimationComponent(fName, nWideVal, nHighVal, xVal, yVal, wVal, hVal); //"clone.png", 4, 2, 100, 200, 50, 50
+	animComp = new AnimationComponent(fName, nWideVal, nHighVal, xVal, yVal, wVal, hVal, windowRef->renderTarget); //"clone.png", 4, 2, 100, 200, 50, 50
 	myRect = addRectangle(xVal, yVal, wVal, hVal, true);
-	b2Color red(1, 0, 0);
-	myRect = addRectangle(100, 200, 50, 50, true, red , PLAYER, BOUNDARY | HITBOX, false);
+	//b2Color red(1, 0, 0);
+	//myRect = addRectangle(100, 200, 50, 50, true, red , PLAYER, BOUNDARY | HITBOX, false);
 	myRect->SetFixedRotation(true);
 	myRect->SetGravityScale(7.0f);
 }
@@ -58,5 +58,5 @@ void Player::beginningOperation()
 void Player::updateAnimation(b2Vec2 currentPlayerPosition)
 {
 	animComp->increaseFrameTime();
-	animComp->checkFrameTime(currentPlayerPosition);
+	animComp->checkFrameTime(currentPlayerPosition, wVal, hVal);
 }
