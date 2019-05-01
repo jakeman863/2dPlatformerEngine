@@ -75,7 +75,7 @@ void ImportWorld::CreateMap(int* mapArr, int r, int c)
 		for (int j = 0; j < c; j++)
 		{
 			std::cout << mapArr[i*c + j] << " ";
-			GameObject* newMapObject = new GameObject(windowRef, mapArr[i*c + j], i, j);
+			//GameObject* newMapObject = new GameObject(windowRef, mapArr[i*c + j], i, j);
 		}
 
 		std::cout << "\n";
