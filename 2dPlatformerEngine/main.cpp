@@ -11,10 +11,17 @@
 
 #include <Windows.h>
 #include "Player.h"
+#include "Enemy.h"
 #include "GameObject.h"
 #include "windowInstance.h"
 #include "ImportWorld.h"
 #include "Utilities.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+void EnemyIdle(Enemy*);
 
 int main(int argc, char *argv[])
 {	
@@ -33,6 +40,34 @@ int main(int argc, char *argv[])
 	objectList[0] = new GameObject(newWindow, 1, 640 / 2, 8500, 64000, 30, false);
 	objectList[1] = new Player(newWindow, 51, "clone.png", 4, 2, 100, 200, 50, 50);
 	objectList[2] = new GameObject(newWindow, 2, 0, 0, 0, 0, false);
+	GameObject* newObject = new GameObject(newWindow);
+	Player* player = new Player(newWindow);
+	
+	string enemyCount = "0";
+	string xPos;
+	string yPos;
+	string name = "Help";
+	ifstream inFile;
+	inFile.open("Level1List.txt");
+	if (!inFile) {
+		cout << "Unable to open file";
+		exit(1); // terminate with error
+	}
+	getline(inFile, enemyCount);
+	cout << enemyCount;
+	int n = std::stoi(enemyCount);
+	Enemy* en[5];
+	int i = 0;
+	while (i < n) {
+		getline(inFile, name);
+		getline(inFile, xPos);
+		getline(inFile, yPos);
+		en[i] = new Enemy(newWindow, stoi(xPos), stoi(yPos), name);
+		en[i]->name = name;
+		i++;
+	}
+	inFile.close();
+
 
 	//Start
 	Uint32 start;
@@ -199,6 +234,13 @@ int main(int argc, char *argv[])
 
 		objectList[1]->displayIt();
 		objectList[1]->displayIt2();
+		for (int i = 0; i < n; i++)
+		{
+			EnemyIdle(en[i]);
+			b2Vec2 vel2 = en[0]->myRect->GetLinearVelocity();;
+		}
+
+		newObject->displayIt();
 		newWindow->world->Step(1.0 / 30.0, 8, 3);      //update
 		//SDL_UpdateWindowSurface(newWindow->window);
 		if (1000.0 / 30.0 > SDL_GetTicks() - start)
@@ -214,4 +256,41 @@ int main(int argc, char *argv[])
 
 	SDL_Quit();
 	return 0;
+}
+}
+
+void EnemyIdle(Enemy* en)
+{
+	if (en->name.compare("[SLIME]") == 0)
+	{
+		if (en->counter >= 0 && en->counter < 20)
+		{
+			b2Vec2 vel2 = en->myRect->GetLinearVelocity();
+			vel2.x = 4;
+			en->myRect->SetLinearVelocity(vel2);
+			en->counter++;
+		}
+		if (en->counter >=20 && en->counter < 40)
+		{
+			b2Vec2 vel2 = en->myRect->GetLinearVelocity();
+			vel2.x = -4;
+			en->myRect->SetLinearVelocity(vel2);
+			en->counter++;
+		}
+		if (en->counter == 40)
+		{
+			b2Vec2 vel2 = en->myRect->GetLinearVelocity();
+			vel2.x = 0;
+			en->myRect->SetLinearVelocity(vel2);
+			en->counter = 0;
+		}
+	}
+	if (en->name.compare("[ELF]") == 0)
+	{
+		b2Vec2 vel2 = en->myRect->GetLinearVelocity();
+		if (vel2.y == 0)
+		{
+			en->myRect->ApplyLinearImpulse(b2Vec2(0, -100), en->myRect->GetWorldCenter(), true);
+		}
+	}
 }

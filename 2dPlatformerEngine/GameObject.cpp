@@ -127,6 +127,59 @@ void GameObject::rotateTranslate(b2Vec2& vector, const b2Vec2& center, float ang
 *
 * return: Returns Box2D object
 ************************************************************************************************************/
+b2Body* GameObject::addRectangle(int x, int y, int w, int h, bool dyn, b2Color color, uint16 categoryBits, uint16 maskBits, bool hitbox)
+{
+	dyn = true;
+	b2BodyDef bodydef;
+	bodydef.position.Set(x * PixelsToMeters, y * PixelsToMeters);
+	m_color = color;
+
+	if (dyn == true)
+	{
+		bodydef.type = b2_dynamicBody;
+	}
+
+	b2Body* body = windowRef->world->CreateBody(&bodydef);
+	b2PolygonShape shape;
+
+	shape.SetAsBox(PixelsToMeters * w / 2, PixelsToMeters * h / 2);
+
+	b2FixtureDef fixturedef;
+	fixturedef.shape = &shape;
+	fixturedef.density = 1.0;
+	if(hitbox)
+		fixturedef.isSensor = true;
+	fixturedef.filter.categoryBits = categoryBits;
+	fixturedef.filter.maskBits = maskBits;
+
+	body->CreateFixture(&fixturedef);
+
+	b2BodyDef bodydef2;
+	bodydef2.position.Set(x * PixelsToMeters, y * PixelsToMeters);
+	m_color = color;
+
+	if (dyn == true)
+	{
+		bodydef2.type = b2_dynamicBody;
+	}
+
+	b2PolygonShape shape2;
+
+	shape2.SetAsBox(PixelsToMeters * w / 2, PixelsToMeters * h / 2);
+
+	b2FixtureDef fixturedef2;
+	fixturedef2.shape = &shape2;
+	fixturedef2.density = 1.0;
+	fixturedef2.isSensor = true;
+	fixturedef2.filter.categoryBits = HITBOX;
+	fixturedef2.filter.maskBits = ENEMY | PLAYER ;
+
+	body->CreateFixture(&fixturedef2);
+	body->SetUserData(this);
+	return body;
+}
+
+
 b2Body* GameObject::addRectangle(int x, int y, int w, int h, bool dyn = true)
 {
 	b2BodyDef bodydef;

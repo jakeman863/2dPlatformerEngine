@@ -42,6 +42,8 @@ void Player::beginningOperation()
 {
 	animComp = new AnimationComponent(fName, nWideVal, nHighVal, xVal, yVal, wVal, hVal); //"clone.png", 4, 2, 100, 200, 50, 50
 	myRect = addRectangle(xVal, yVal, wVal, hVal, true);
+	b2Color red(1, 0, 0);
+	myRect = addRectangle(100, 200, 50, 50, true, red , PLAYER, BOUNDARY | HITBOX, false);
 	myRect->SetFixedRotation(true);
 	myRect->SetGravityScale(7.0f);
 }
